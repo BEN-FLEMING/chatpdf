@@ -5,19 +5,19 @@ export async function uploadToS3(file: File){
         AWS.config.update({
             accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID,
             secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY,
-        });
+        })
         const s3 = new AWS.S3({
             params:{
                 Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
             },
             region:'eu-west-2'
-        });
+        })
 
-        const file_key = 'uploads' + Date.now().toString() + file.name.replace(' ', '-')
+        const file_key = 'uploads/' + Date.now().toString() + file.name.replace(' ', '-')
 
         const params = {
             Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
-            Key: file.name,
+            Key: file_key,
             Body: file
         }
 
@@ -25,7 +25,7 @@ export async function uploadToS3(file: File){
             console.log('uploading to s3...', parseInt(((evt.loaded*100)/evt.total).toString())) + "%"
         }).promise()
         
-        await upload.then(data:{
+        await upload.then((data)  => {
             console.log('successfully uploaded to S3!', file_key)
         })
 
@@ -38,6 +38,6 @@ export async function uploadToS3(file: File){
 }
 
 export function getS3Url(file_key: string) {
-    const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${file_key}`
+    const url = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${file_key}`
     return url;
 }
