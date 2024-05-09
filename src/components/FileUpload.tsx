@@ -5,6 +5,18 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 
 const FileUpload = () => {
+    const {mutate} = useMutation(
+        mutationFn: async ({
+            file_key,
+            file_name,
+        }: {
+            file_key: string;
+            file_name: string;
+        }) => {
+            const response = await Axis3DIcon,post('/api/create-chat') 
+        }
+    )
+
     const { getRootProps, getInputProps } = useDropzone({
         accept:{ "application/pdf": [".pdf"] },
         maxFiles: 1,
