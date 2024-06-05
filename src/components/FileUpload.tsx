@@ -11,7 +11,7 @@ const FileUpload = () => {
 
     const [uploading, setUploading] = React.useState(false)
 
-    const { mutate, isLoading } = useMutation({
+    const { mutate, status } = useMutation({
         mutationFn: async ({
             file_key,
             file_name,
@@ -23,6 +23,8 @@ const FileUpload = () => {
             return response.data 
         },
     })
+
+    const isLoading = status === 'pending';
 
     const { getRootProps, getInputProps } = useDropzone({
         accept:{ "application/pdf": [".pdf"] },
